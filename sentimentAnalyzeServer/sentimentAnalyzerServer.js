@@ -1,5 +1,22 @@
 const express = require('express');
+const dotenv = require('dotenv');
 const app = new express();
+dotenv.config();
+
+function getNLUInstance(){
+    let api_key = process.env.API_KEY;
+    let api_url = process.env.API_URL;
+    const NaturalLanguageUnderstandingV1 = require('ibm-watson/natural-language-understanding/v1');
+    const {IamAuthenticator} = require ('ibm-watson/auth');
+    const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
+        version: '2021-06-26',
+        authenticator = new IamAuthenticator({
+            api_key:api_key,
+        }),
+        serviceUrl = api_url,
+    });
+    return naturalLanguageUnderstanding;
+}
 
 app.use(express.static('client'))
 
